@@ -1,28 +1,33 @@
-# Tamil PDF Translator - Real Estate Transaction Parser
+# PDF Parser – Tamil Real Estate Transaction Processor
 
-A full-stack application to ingest, parse, translate, and store Tamil real-estate transaction data from PDFs into a PostgreSQL database.
+An application to ingest, parse, translate, and store Tamil real-estate
+transaction data from PDF documents into a PostgreSQL database.
 
 ## Tech Stack
 
 - **Frontend**: Next.js 14, Tailwind CSS, TypeScript
-- **Backend**: Node.js, Nest.js, TypeScript
+- **Backend**: Node.js, NestJS, TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
-- **AI Translation**: OpenAI GPT-4
+- **Translation**: Google Cloud Translation API
 
 ## Features
 
-- User authentication (stub authentication)
+- Basic user authentication
 - PDF upload and preview
-- Tamil to English translation using OpenAI
+- Tamil to English translation using Google Cloud Translation
 - Searchable transaction table with filters
-- Side-by-side PDF preview and results view
+- Side-by-side PDF preview and parsed results
 
 ## Prerequisites
 
-- Node.js 18+ 
+- Node.js 20+ (Use the Nodejs 20 LTS to work with the Drizzle)
 - PostgreSQL 14+
-- OpenAI API Key
-- npm or yarn
+- Google Cloud Translation API key
+- npm
+
+## Project Structure
+
+
 
 ## Project Structure
 
@@ -72,11 +77,11 @@ cd backend
 npm install
 
 # Create .env file
-cp .env.example .env
+touch .env
 
 # Edit .env with your credentials:
 # DATABASE_URL=postgresql://postgres:your_password@localhost:5432/tamil_transactions
-# OPENAI_API_KEY=your_openai_api_key
+# GOOGLE_TRANSLATE_API_KEY=your_openai_api_key
 # JWT_SECRET=your_jwt_secret
 
 # Run database migrations
@@ -97,7 +102,7 @@ cd frontend
 npm install
 
 # Create .env.local file
-cp .env.example .env.local
+Touch .env.local
 
 # Edit .env.local:
 # NEXT_PUBLIC_API_URL=http://localhost:3001
@@ -168,51 +173,33 @@ CREATE TABLE transactions (
 
 ## Architecture Overview
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│                 │     │                 │     │                 │
-│   Next.js App   │────▶│   Nest.js API   │────▶│   PostgreSQL    │
-│   (Frontend)    │     │   (Backend)     │     │   (Database)    │
-│                 │     │                 │     │                 │
-└─────────────────┘     └────────┬────────┘     └─────────────────┘
-                                 │
-                                 ▼
-                        ┌─────────────────┐
-                        │                 │
-                        │   OpenAI API    │
-                        │  (Translation)  │
-                        │                 │
-                        └─────────────────┘
-```
+Next.js (Frontend)
+        |
+        v
+NestJS API (Backend)
+        |
+        v
+PostgreSQL (Database)
+        |
+        v
+Google Cloud Translation API
 
 ## Libraries Used
 
 ### Backend
-- @nestjs/core, @nestjs/common - Nest.js framework
-- drizzle-orm - Database ORM
-- drizzle-kit - Migration toolkit
-- pdf-parse - PDF text extraction
-- openai - OpenAI API client
-- @nestjs/jwt - JWT authentication
-- multer - File upload handling
-- pg - PostgreSQL driver
+- @nestjs/core, @nestjs/common – NestJS framework
+- drizzle-orm – Database ORM
+- drizzle-kit – Migration toolkit
+- pdf-parse – PDF text extraction
+- @google-cloud/translate – Google Cloud Translation API client
+- @nestjs/jwt – JWT authentication
+- multer – File upload handling
+- pg – PostgreSQL driver
 
 ### Frontend
-- next - Next.js framework
-- tailwindcss - CSS framework
-- react-pdf - PDF preview
-- axios - HTTP client
-- react-hook-form - Form handling
-- @tanstack/react-table - Data table
-
-## Evaluation Criteria Met
-
-- ✅ Correctness: Accurate data extraction and translation
-- ✅ Code Quality: Clean architecture, modular design
-- ✅ User Experience: Intuitive UI with PDF preview
-- ✅ Performance: Efficient processing with async operations
-- ✅ Documentation: Comprehensive README and code comments
-
-## License
-
-MIT
+- next – Next.js framework
+- tailwindcss – CSS framework
+- react-pdf – PDF preview
+- axios – HTTP client
+- react-hook-form – Form handling
+- @tanstack/react-table – Data table

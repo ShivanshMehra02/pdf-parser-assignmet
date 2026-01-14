@@ -1,25 +1,27 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ConfigService } from '@nestjs/config';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/db.module';
 import { users } from '../db/schema';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject('DATABASE')
+    private readonly db: NodePgDatabase<typeof import('../db/schema')>,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'default-secret-change-in-production',
+      secretOrKey: configService.get<string>('JWT_SECRET'),
     });
   }
 
   async validate(payload: any) {
-    const [user] = await db
+    const [user] = await this.db
       .select()
       .from(users)
       .where(eq(users.id, payload.sub))
@@ -29,10 +31,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
 
-    return { 
-      id: user.id, 
-      email: user.email, 
-      name: user.name 
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
     };
   }
 }

@@ -22,7 +22,7 @@ export class AuthController implements OnModuleInit {
     return this.authService.register(
       registerDto.email,
       registerDto.password,
-      registerDto.name,
+      registerDto.name ?? '', // FIXED: Handle undefined name
     );
   }
 }
