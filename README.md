@@ -171,19 +171,6 @@ CREATE TABLE transactions (
 4. Translation preserves proper nouns through transliteration
 5. All monetary values are in Indian Rupees (INR)
 
-## Architecture Overview
-
-Next.js (Frontend)
-        |
-        v
-NestJS API (Backend)
-        |
-        v
-PostgreSQL (Database)
-        |
-        v
-Google Cloud Translation API
-
 ## Libraries Used
 
 ### Backend
