@@ -185,8 +185,8 @@ CREATE TABLE transactions (
 
 ### Frontend
 - next – Next.js framework
-- tailwindcss – CSS framework
-- react-pdf – PDF preview
-- axios – HTTP client
-- react-hook-form – Form handling
+- tailwindcss – CSS framework 22222222
+- react-pdf – PDF preview 33333333
+- axios – HTTP client 44444444
+- react-hook-form – Form handling jkfsdlfjdliiiiiiiiiiii
 - @tanstack/react-table – Data table 1111111111111
